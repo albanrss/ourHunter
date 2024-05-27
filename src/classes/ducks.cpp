@@ -83,6 +83,34 @@ void Duck::move_sprite(void)
     Duck_sprite->move(mult3(dir_vector, elapsed_time * speed));
 }
 
+void Duck::reset_pos(void)
+{
+    sf::Vector2f pos = sf::Vector2f(0, (float)(rand() % 700));
+
+    change_dir();
+    Duck_sprite->setPosition(pos);
+}
+
+void Duck::check_out_screen(sf::RenderWindow &window)
+{
+    sf::Vector2u size_window = window.getSize();
+    sf::Vector2f pos_sprite = Duck_sprite->getPosition();
+    sf::FloatRect rect_window = sf::FloatRect(sf::Vector2f{0, 0},
+        sf::Vector2f{(float)size_window.x, (float)size_window.y});
+
+    if (sf::FloatRect(Duck_sprite->getGlobalBounds()).intersects(rect_window)
+        == false) {
+        reset_pos();
+    }
+}
+
+void Duck::check_shoot(sf::Vector2f pos_mouse)
+{
+    if (Duck_sprite->getGlobalBounds().contains(pos_mouse) == true) {
+        reset_pos();
+    }
+}
+
 Duck::~Duck() {
     delete Duck_sprite;
     delete Duck_texture;

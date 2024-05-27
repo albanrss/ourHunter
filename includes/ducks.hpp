@@ -30,7 +30,10 @@ class Duck {
         void update_clock();
         void change_dir();
         void move_sprite();
+        void reset_pos();
         void animate_sprite();
+        void check_out_screen(sf::RenderWindow &windows);
+        void check_shoot(sf::Vector2f pos_mouse);
         void display_sprite(sf::RenderWindow &windows);
 };
 
