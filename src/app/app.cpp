@@ -7,20 +7,20 @@
 
 #include "my.hpp"
 
-int start_app(game_t *data)
+int start_app(class Duck *duck_entity)
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "My_test in cpp");
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
         window.clear();
-        window.draw(data->main_menu->sprite_main_menu);
+        duck_entity->display_sprite(window);
         window.display();
     }
+    duck_entity->~Duck();
     return 0;
 }

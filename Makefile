@@ -12,7 +12,7 @@ BLUE=\e[1;34m
 NC=\033[0m
 
 SRC =	src/app/app.cpp	\
-		src/init/init_game.cpp	\
+		src/classes/ducks.cpp	\
 
 SRC_MAIN =	src/main.cpp
 

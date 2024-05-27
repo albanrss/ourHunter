@@ -9,7 +9,7 @@
 
 int main(void)
 {
-    game_t *data_game = init_game();
+    Duck *duck_entity = new Duck;
 
-    start_app(data_game);
+    start_app(duck_entity);
 }

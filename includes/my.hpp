@@ -5,6 +5,7 @@
 ** my
 */
 
+#include "ducks.hpp"
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -21,8 +22,7 @@ struct game_t {
     main_menu_t *main_menu;
 };
 
-int start_app(game_t *data);
+int start_app(class Duck *duck1);
 //Init
-game_t *init_game(void);
 
 #endif /* !MY_HPP_ */
