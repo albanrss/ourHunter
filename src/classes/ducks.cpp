@@ -10,10 +10,14 @@
 
 Duck::Duck()
 {
+    is_dead = false;
+    dead_duck = new DuckImpact;
     Duck_clock = new sf::Clock();
     Duck_texture = new sf::Texture();
     Duck_sprite = new sf::Sprite();
-    current_position = sf::Vector2f({0, 0});
+    Duck_image = new sf::Image();
+    Duck_sprite->setOrigin(sf::Vector2f(55, 55));
+    current_position = sf::Vector2f({55, float ((rand() % 1026) + 55)});
     rect_sprite = sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(110, 110));
     Duck_texture->loadFromFile("./assets/duck_spritesheet.png");
     Duck_sprite->setTexture(*Duck_texture);
@@ -28,8 +32,8 @@ Duck::Duck()
 void Duck::change_dir(void)
 {
     update_position();
-    int x = rand() % 1920 + current_position.x;
-    int y = rand() % 1080;
+    int x = rand() % 1865 + 55 + current_position.x;
+    int y = rand() % 1026 + 55;
 
     speed = double(rand() % 5 + 1) / 10;
     update_position();
@@ -44,6 +48,8 @@ void Duck::update_position(void)
 
 void Duck::display_sprite(sf::RenderWindow &window)
 {
+    if (is_dead)
+        dead_duck->display_sprites(window);
     window.draw(*Duck_sprite);
 }
 
@@ -81,6 +87,8 @@ void Duck::move_sprite(void)
         change_dir();
     }
     Duck_sprite->move(mult3(dir_vector, elapsed_time * speed));
+    if (is_dead)
+        dead_duck->move_sprite();
 }
 
 void Duck::reset_pos(void)
@@ -102,12 +110,34 @@ void Duck::check_out_screen(sf::RenderWindow &window)
         == false) {
         reset_pos();
     }
+    if (is_dead && dead_duck->check_out_screen(window) == true)
+        is_dead = false;
+}
+
+sf::Color getcolor(const sf::Sprite *sprite, sf::Vector2f pos_mouse) {
+    sf::Vector2f localPoint = sprite->getInverseTransform().transformPoint(pos_mouse.x, pos_mouse.y);
+    const sf::Texture *texture = sprite->getTexture();
+    sf::Image image = texture->copyToImage();
+
+    if (localPoint.x < 0 || localPoint.y < 0 ||
+        localPoint.x >= image.getSize().x || localPoint.y >= image.getSize().y) {
+        return sf::Color::Transparent;
+    }
+    return image.getPixel((unsigned int)(localPoint.x), (unsigned int)(localPoint.y));
 }
 
 void Duck::check_shoot(sf::Vector2f pos_mouse)
 {
-    if (Duck_sprite->getGlobalBounds().contains(pos_mouse) == true) {
+    update_position();
+    sf::Image *img_sprite;
+
+    if ((Duck_sprite->getGlobalBounds().contains(pos_mouse) == true) && (getcolor(Duck_sprite, pos_mouse) != sf::Color::Transparent)) {
+        is_dead = true;
+        dead_duck->clock->restart();
+        dead_duck->change_position(current_position, pos_mouse);
+        change_dir();
         reset_pos();
+        Duck_clock->restart();
     }
 }
 

@@ -9,7 +9,8 @@
 
 int main(void)
 {
-    Duck *duck_entity = new Duck;
+    class Duck *data = new Duck;
 
-    start_app(duck_entity);
+    srand(time(NULL));
+    start_app(data);
 }

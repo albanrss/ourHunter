@@ -6,10 +6,12 @@
 */
 
 #include "ducks.hpp"
+#include "duckimpact.hpp"
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #ifndef MY_HPP_
     #define MY_HPP_
@@ -23,7 +25,7 @@ struct game_t {
     main_menu_t *main_menu;
 };
 
-int start_app(class Duck *duck1);
+int start_app(class Duck *data);
 //Init
 
 //Vectorization
