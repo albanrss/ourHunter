@@ -14,14 +14,9 @@
 
 class DuckImpact {
     public:
-        sf::Texture *impact_texture;
-        sf::Sprite *impact_sprite;
-        sf::Vector2f current_position;
-        sf::Texture *dead_texture;
-        sf::Sprite *dead_sprite;
+        img_t *ImpactSprite;
+        img_t *DeadSprite;
         time2_t *clock_time;
-        sf::Vector2f current_position_impact;
-        sf::Vector2f current_position_dead;
         sf::Vector2f death_vector;
         DuckImpact();
         void display_sprites(sf::RenderWindow &windows);

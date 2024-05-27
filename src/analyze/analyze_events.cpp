@@ -7,7 +7,7 @@
 
 #include "my.hpp"
 
-void analyze_envents(class Duck *duck, sf::RenderWindow &window)
+void analyze_events(class Duck *duck, sf::RenderWindow &window)
 {
     sf::Event event;
 

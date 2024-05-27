@@ -25,3 +25,22 @@ img_t *init_duck(void)
     data->sprite->setPosition(data->current_position);
     return data;
 }
+
+img_t *init_img(std::string path, sf::Vector2f pos)
+{
+    img_t *data = new img_t;
+    sf::Vector2u size_sprite = sf::Vector2u(0, 0);
+
+    data->texture = new sf::Texture;
+    if (!data->texture->loadFromFile(path)) {
+        std::cerr << "Failed to load sprite" << std::endl;
+        return nullptr;
+    }
+    data->sprite = new sf::Sprite;
+    data->sprite->setTexture(*data->texture);
+    size_sprite = data->texture->getSize();
+    data->sprite->setOrigin(sf::Vector2f(((float)size_sprite.x / 2), ((float)size_sprite.y / 2)));
+    data->sprite->setPosition(pos);
+    data->current_position = pos;
+    return data;
+}

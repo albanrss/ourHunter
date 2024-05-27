@@ -31,7 +31,6 @@ void Duck::change_dir(void)
     angle = atan2(y - DuckSprite->current_position.y,
         x - DuckSprite->current_position.x);
     dir_vector = sf::Vector2f({(float) cos(angle), (float) sin(angle)});
-    printf("pos : %f %f\n", DuckSprite->current_position.x, DuckSprite->current_position.y);
 }
 
 void Duck::update_position(void)
@@ -135,8 +134,6 @@ void Duck::check_shoot(sf::Vector2f pos_mouse)
 }
 
 Duck::~Duck() {
-    delete DuckSprite->sprite;
-    delete DuckSprite->texture;
-    delete DuckSprite;
-    delete clock_time;
+    delete_img(DuckSprite);
+    delete_time(clock_time);
 }

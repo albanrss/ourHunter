@@ -24,19 +24,22 @@ struct main_menu_t {
 struct game_t {
     main_menu_t *main_menu;
 };
-
+// Start app
 int start_app(class Duck *data);
-// Init
+
+/// Init
+img_t *init_img(std::string path, sf::Vector2f pos);
 img_t *init_duck(void);
 time2_t *init_time(void);
 
-// Analyze
-void analyze_envents(class Duck *duck, sf::RenderWindow &window);
+// Analyze events
+void analyze_events(class Duck *duck, sf::RenderWindow &window);
 
-// Vectorization
+// Vectorization mutipli a vector with a value
 sf::Vector2f mult3(sf::Vector2f pos, float val);
 
-// Delete
+// Delete img
 void delete_img(img_t *data);
+void delete_time(time2_t *data);
 
 #endif /* !MY_HPP_ */
