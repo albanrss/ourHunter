@@ -12,13 +12,17 @@
 #ifndef MY_HPP_
     #define MY_HPP_
 
-struct game {
+struct main_menu_t {
     sf::Texture texture_main_menu;
     sf::Sprite sprite_main_menu;
 };
 
-int start_app(game data);
+struct game_t {
+    main_menu_t *main_menu;
+};
+
+int start_app(game_t *data);
 //Init
-game init_game(void);
+game_t *init_game(void);
 
 #endif /* !MY_HPP_ */

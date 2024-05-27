@@ -7,7 +7,7 @@
 
 #include "my.hpp"
 
-int start_app(game data)
+int start_app(game_t *data)
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "My_test in cpp");
 
@@ -19,7 +19,7 @@ int start_app(game data)
                 window.close();
         }
         window.clear();
-        window.draw(data.sprite_main_menu);
+        window.draw(data->main_menu->sprite_main_menu);
         window.display();
     }
     return 0;

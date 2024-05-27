@@ -9,7 +9,7 @@
 
 int main(void)
 {
-    game data_game = init_game();
+    game_t *data_game = init_game();
 
     start_app(data_game);
 }
