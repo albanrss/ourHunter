@@ -13,6 +13,7 @@ NC=\033[0m
 
 SRC =	src/app/app.cpp	\
 		src/classes/ducks.cpp	\
+		src/vector_operations.cpp	\
 
 SRC_MAIN =	src/main.cpp
 
@@ -22,7 +23,7 @@ OBJ_MAIN = $(SRC_MAIN:.cpp=.o)
 
 NAME	=	our_hunter
 
-CFLAGS	=	-I./includes/ -lsfml-graphics -lsfml-window -lsfml-system
+CFLAGS	=	-I./includes/ -lsfml-graphics -lsfml-window -lsfml-system -lm -g
 
 all: $(NAME)
 

@@ -9,7 +9,7 @@
 
 int start_app(class Duck *duck_entity)
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My_test in cpp");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "OurDuckHunter");
 
     while (window.isOpen()) {
         sf::Event event;
@@ -18,6 +18,7 @@ int start_app(class Duck *duck_entity)
                 window.close();
         }
         window.clear();
+        duck_entity->move_sprite();
         duck_entity->display_sprite(window);
         window.display();
     }

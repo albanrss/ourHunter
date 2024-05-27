@@ -8,6 +8,7 @@
 #include "ducks.hpp"
 #include <iostream>
 #include <SFML/Audio.hpp>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 
 #ifndef MY_HPP_
@@ -24,5 +25,8 @@ struct game_t {
 
 int start_app(class Duck *duck1);
 //Init
+
+//Vectorization
+sf::Vector2f mult3(sf::Vector2f pos, float val);
 
 #endif /* !MY_HPP_ */
