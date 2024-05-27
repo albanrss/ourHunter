@@ -1,0 +1,4 @@
+*.o
+our_hunter
+*.idea*
+*.vscode*
