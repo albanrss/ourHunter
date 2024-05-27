@@ -8,21 +8,12 @@
 #include "my.hpp"
 #include <iostream>
 
-Duck::Duck()
+Duck::Duck(void)
 {
     is_dead = false;
     dead_duck = new DuckImpact;
-    Duck_clock = new sf::Clock();
-    Duck_texture = new sf::Texture();
-    Duck_sprite = new sf::Sprite();
-    Duck_image = new sf::Image();
-    Duck_sprite->setOrigin(sf::Vector2f(55, 55));
-    current_position = sf::Vector2f({55, float ((rand() % 1026) + 55)});
-    rect_sprite = sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(110, 110));
-    Duck_texture->loadFromFile("./assets/duck_spritesheet.png");
-    Duck_sprite->setTexture(*Duck_texture);
-    Duck_sprite->setTextureRect(rect_sprite);
-    Duck_sprite->setPosition(current_position);
+    clock_time = init_time();
+    DuckSprite = init_duck();
     flappy_time = 200;
     speed = 0.1;
     random_dir = (rand() % 3 + 1) * 1000;
@@ -32,47 +23,47 @@ Duck::Duck()
 void Duck::change_dir(void)
 {
     update_position();
-    int x = rand() % 1865 + 55 + current_position.x;
+    int x = rand() % 1865 + 55 + DuckSprite->current_position.x;
     int y = rand() % 1026 + 55;
 
     speed = double(rand() % 5 + 1) / 10;
     update_position();
-    angle = atan2(y - current_position.y, x - current_position.x);
+    angle = atan2(y - DuckSprite->current_position.y,
+        x - DuckSprite->current_position.x);
     dir_vector = sf::Vector2f({(float) cos(angle), (float) sin(angle)});
+    printf("pos : %f %f\n", DuckSprite->current_position.x, DuckSprite->current_position.y);
 }
 
 void Duck::update_position(void)
 {
-    current_position =  Duck_sprite->getPosition();
-}
-
-void Duck::display_sprite(sf::RenderWindow &window)
-{
-    if (is_dead)
-        dead_duck->display_sprites(window);
-    window.draw(*Duck_sprite);
+    DuckSprite->current_position =  DuckSprite->sprite->getPosition();
 }
 
 void Duck::update_clock(void)
 {
-    sf::Time time = Duck_clock->getElapsedTime();
+    clock_time->seconds = clock_time->clock->getElapsedTime().asMilliseconds();
+    clock_time->clock->restart();
+}
 
-    elapsed_time = time.asMilliseconds();
-    Duck_clock->restart();
+void Duck::display_sprite(sf::RenderWindow *window)
+{
+    if (is_dead)
+        dead_duck->display_sprites(*window);
+    window->draw(*(DuckSprite->sprite));
 }
 
 void Duck::animate_sprite(void)
 {
-    flappy_time -= elapsed_time;
+    flappy_time -= clock_time->seconds;
 
     if (flappy_time <= 0) {
         flappy_time = 200;
-        if (rect_sprite.left == 220)
-            rect_sprite.left = 0;
+        if (DuckSprite->rect_sprite.left == 220)
+            DuckSprite->rect_sprite.left = 0;
         else
-            rect_sprite.left += 110;
+            DuckSprite->rect_sprite.left += 110;
     }
-    Duck_sprite->setTextureRect(rect_sprite);
+    DuckSprite->sprite->setTextureRect(DuckSprite->rect_sprite);
 }
 
 void Duck::move_sprite(void)
@@ -81,12 +72,13 @@ void Duck::move_sprite(void)
     update_position();
 
     animate_sprite();
-    random_dir -= elapsed_time;
+    random_dir -= clock_time->seconds;
     if (random_dir <= 0) {
         random_dir = (double)(rand() % 3 + 1) * 1000;
         change_dir();
     }
-    Duck_sprite->move(mult3(dir_vector, elapsed_time * speed));
+    (DuckSprite->sprite)->move(mult3(dir_vector, clock_time->seconds * speed));
+    update_position();
     if (is_dead)
         dead_duck->move_sprite();
 }
@@ -96,26 +88,26 @@ void Duck::reset_pos(void)
     sf::Vector2f pos = sf::Vector2f(0, (float)(rand() % 700));
 
     change_dir();
-    Duck_sprite->setPosition(pos);
+    DuckSprite->sprite->setPosition(pos);
 }
 
 void Duck::check_out_screen(sf::RenderWindow &window)
 {
     sf::Vector2u size_window = window.getSize();
-    sf::Vector2f pos_sprite = Duck_sprite->getPosition();
+    sf::Vector2f pos_sprite = DuckSprite->sprite->getPosition();
     sf::FloatRect rect_window = sf::FloatRect(sf::Vector2f{0, 0},
         sf::Vector2f{(float)size_window.x, (float)size_window.y});
+    sf::FloatRect rect_sprite = DuckSprite->sprite->getGlobalBounds();
 
-    if (sf::FloatRect(Duck_sprite->getGlobalBounds()).intersects(rect_window)
-        == false) {
+    if (rect_sprite.intersects(rect_window) == false)
         reset_pos();
-    }
     if (is_dead && dead_duck->check_out_screen(window) == true)
         is_dead = false;
 }
 
 sf::Color getcolor(const sf::Sprite *sprite, sf::Vector2f pos_mouse) {
-    sf::Vector2f localPoint = sprite->getInverseTransform().transformPoint(pos_mouse.x, pos_mouse.y);
+    sf::Vector2f localPoint = sprite->getInverseTransform().transformPoint(
+        pos_mouse.x, pos_mouse.y);
     const sf::Texture *texture = sprite->getTexture();
     sf::Image image = texture->copyToImage();
 
@@ -131,18 +123,20 @@ void Duck::check_shoot(sf::Vector2f pos_mouse)
     update_position();
     sf::Image *img_sprite;
 
-    if ((Duck_sprite->getGlobalBounds().contains(pos_mouse) == true) && (getcolor(Duck_sprite, pos_mouse) != sf::Color::Transparent)) {
+    if ((DuckSprite->sprite->getGlobalBounds().contains(pos_mouse) == true) &&
+        (getcolor(DuckSprite->sprite, pos_mouse) != sf::Color::Transparent)) {
         is_dead = true;
-        dead_duck->clock->restart();
-        dead_duck->change_position(current_position, pos_mouse);
+        dead_duck->clock_time->clock->restart();
+        dead_duck->change_position(DuckSprite->current_position, pos_mouse);
         change_dir();
         reset_pos();
-        Duck_clock->restart();
+        clock_time->clock->restart();
     }
 }
 
 Duck::~Duck() {
-    delete Duck_sprite;
-    delete Duck_texture;
-    delete Duck_clock;
+    delete DuckSprite->sprite;
+    delete DuckSprite->texture;
+    delete DuckSprite;
+    delete clock_time;
 }

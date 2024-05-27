@@ -7,14 +7,15 @@
 
 #include "my.hpp"
 
-DuckImpact::DuckImpact()
+DuckImpact::DuckImpact(void)
 {
     impact_sprite = new sf::Sprite;
     impact_texture = new sf::Texture;
     dead_sprite = new sf::Sprite;
     dead_texture = new sf::Texture;
-    clock = new sf::Clock;
-    elapsed_time = 0;
+    clock_time = new time2_t;
+    clock_time->seconds = 0;
+    clock_time->clock = new sf::Clock;
     impact_texture->loadFromFile("assets/impact.png");
     impact_sprite->setTexture(*impact_texture);
     impact_sprite->setOrigin(sf::Vector2f((11.0 / 2), (11.0 / 2)));
@@ -32,20 +33,18 @@ void DuckImpact::change_position(sf::Vector2f pos, sf::Vector2f pos_mouse)
     dead_sprite->setPosition(pos);
 }
 
-void DuckImpact::move_sprite()
+void DuckImpact::move_sprite(void)
 {
     update_clock();
 
-    dead_sprite->move(mult3(death_vector, elapsed_time * 0.2));
-    impact_sprite->move(mult3(death_vector, elapsed_time * 0.2));
+    dead_sprite->move(mult3(death_vector, clock_time->seconds * 0.2));
+    impact_sprite->move(mult3(death_vector, clock_time->seconds * 0.2));
 }
 
 void DuckImpact::update_clock(void)
 {
-    sf::Time time = clock->getElapsedTime();
-
-    elapsed_time = time.asMilliseconds();
-    clock->restart();
+    clock_time->seconds = clock_time->clock->getElapsedTime().asMilliseconds();
+    clock_time->clock->restart();
 }
 
 void DuckImpact::display_sprites(sf::RenderWindow &window)

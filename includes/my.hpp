@@ -26,9 +26,17 @@ struct game_t {
 };
 
 int start_app(class Duck *data);
-//Init
+// Init
+img_t *init_duck(void);
+time2_t *init_time(void);
 
-//Vectorization
+// Analyze
+void analyze_envents(class Duck *duck, sf::RenderWindow &window);
+
+// Vectorization
 sf::Vector2f mult3(sf::Vector2f pos, float val);
+
+// Delete
+void delete_img(img_t *data);
 
 #endif /* !MY_HPP_ */
