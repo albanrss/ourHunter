@@ -24,6 +24,7 @@ struct main_menu_t {
 struct game_t {
     main_menu_t *main_menu;
 };
+
 // Start app
 int start_app(class Duck *data);
 
@@ -36,6 +37,7 @@ time2_t *init_time(void);
 void analyze_events(class Duck *duck, sf::RenderWindow &window);
 
 // Compute fct
+void compute_game(class Duck *duck, sf::RenderWindow &window);
 void increment_rect(img_t *data);
 
 // Vectorization mutipli a vector with a value
@@ -44,5 +46,6 @@ sf::Vector2f mult3(sf::Vector2f pos, float val);
 // Delete img
 void delete_img(img_t *data);
 void delete_time(time2_t *data);
+void delete_game(class Duck *duck);
 
 #endif /* !MY_HPP_ */

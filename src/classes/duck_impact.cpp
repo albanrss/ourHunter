@@ -14,7 +14,7 @@ DuckImpact::DuckImpact(void)
     ImpactSprite = init_img("assets/impact.png", sf::Vector2f(-11, -11),
         sf::Vector2f(11, 11));
     clock_time = init_time();
-    death_vector = sf::Vector2f(sqrt(3 / 2), 0.5);
+    death_vector = sf::Vector2f(0.5, sqrt(3 / 2));
 }
 
 void DuckImpact::change_position(sf::Vector2f pos, sf::Vector2f pos_mouse)
@@ -27,8 +27,8 @@ void DuckImpact::move_sprite(void)
 {
     update_clock();
 
-    DeadSprite->sprite->move(mult3(death_vector, clock_time->seconds * 0.2));
-    ImpactSprite->sprite->move(mult3(death_vector, clock_time->seconds * 0.2));
+    DeadSprite->sprite->move(mult3(death_vector, clock_time->seconds * 0.7));
+    ImpactSprite->sprite->move(mult3(death_vector, clock_time->seconds * 0.7));
 }
 
 void DuckImpact::update_clock(void)

@@ -14,11 +14,9 @@ int start_app(class Duck *duck)
     while (window.isOpen()) {
         analyze_events(duck, window);
         window.clear();
-        (duck)->check_out_screen(window);
-        (duck)->move_sprite();
-        (duck)->display_sprite(&window);
+        compute_game(duck, window);
         window.display();
     }
-    duck->~Duck();
+    delete_game(duck);
     return 0;
 }

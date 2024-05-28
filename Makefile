@@ -33,8 +33,10 @@ SRC =	$(APP_FOLDER)app.cpp	\
 		$(CLASSES_FOLDER)duck_impact.cpp	\
 		$(ANALYZE_FOLDER)analyze_events.cpp	\
 		$(COMPUTE_FOLDER)increment_rect.cpp	\
+		$(COMPUTE_FOLDER)compute_game.cpp	\
 		$(DELETE_FOLDER)delete_img.cpp	\
 		$(DELETE_FOLDER)delete_time.cpp	\
+		$(DELETE_FOLDER)delete_game.cpp	\
 		$(SRC_FOLDER)vector_operations.cpp	\
 
 SRC_MAIN =	$(SRC_FOLDER)main.cpp
