@@ -13,7 +13,9 @@ Duck::Duck(void)
     is_dead = false;
     dead_duck = new DuckImpact;
     clock_time = init_time();
-    DuckSprite = init_duck();
+    DuckSprite = init_img("assets/duck_spritesheet.png",
+        sf::Vector2f(55, float((rand() % 1026) + 55)), sf::Vector2f(110, 110));
+    init_animated(DuckSprite, sf::Vector2i(0, 0), sf::Vector2i(110, 110));
     flappy_time = 200;
     speed = 0.1;
     random_dir = (rand() % 3 + 1) * 1000;
@@ -57,12 +59,8 @@ void Duck::animate_sprite(void)
 
     if (flappy_time <= 0) {
         flappy_time = 200;
-        if (DuckSprite->rect_sprite.left == 220)
-            DuckSprite->rect_sprite.left = 0;
-        else
-            DuckSprite->rect_sprite.left += 110;
+        increment_rect(DuckSprite);
     }
-    DuckSprite->sprite->setTextureRect(DuckSprite->rect_sprite);
 }
 
 void Duck::move_sprite(void)

@@ -9,8 +9,10 @@
 
 DuckImpact::DuckImpact(void)
 {
-    DeadSprite = init_img("assets/duck_dead.png", sf::Vector2f(-110.0, -110.0));
-    ImpactSprite = init_img("assets/impact.png", sf::Vector2f(-11, -11));
+    DeadSprite = init_img("assets/duck_dead.png", sf::Vector2f(-110.0, -110.0),
+        sf::Vector2f(110, 110));
+    ImpactSprite = init_img("assets/impact.png", sf::Vector2f(-11, -11),
+        sf::Vector2f(11, 11));
     clock_time = init_time();
     death_vector = sf::Vector2f(sqrt(3 / 2), 0.5);
 }

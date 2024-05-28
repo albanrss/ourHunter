@@ -14,9 +14,10 @@ NC=\033[0m
 SRC =	src/app/app.cpp	\
 		src/init/init_time.cpp	\
 		src/init/init_duck.cpp	\
-		src/analyze/analyze_events.cpp	\
 		src/classes/ducks.cpp	\
 		src/classes/duck_impact.cpp	\
+		src/analyze/analyze_events.cpp	\
+		src/compute/increment_rect.cpp	\
 		src/vector_operations.cpp	\
 		src/delete/delete_img.cpp	\
 		src/delete/delete_time.cpp	\

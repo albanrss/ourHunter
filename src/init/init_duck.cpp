@@ -7,29 +7,21 @@
 
 #include "my.hpp"
 
-img_t *init_duck(void)
+void init_animated(img_t *data, sf::Vector2i pos, sf::Vector2i size)
 {
-    img_t *data = new img_t;
+    animated_t *data_an = new animated_t;
+    sf::Vector2u size_picture = data->texture->getSize();
 
-    data->texture = new sf::Texture();
-    if (!data->texture->loadFromFile("assets/duck_spritesheet.png")) {
-        std::cerr << "Failed to load duck sprite sheet!" << std::endl;
-        return nullptr;
-    }
-    data->rect_sprite = sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(110, 110));
-    data->sprite = new sf::Sprite();
-    data->sprite->setTexture(*(data->texture));
-    data->sprite->setOrigin(sf::Vector2f(55, 55));
-    data->sprite->setTextureRect(data->rect_sprite);
-    data->current_position = sf::Vector2f(55, float((rand() % 1026) + 55));
-    data->sprite->setPosition(data->current_position);
-    return data;
+    data_an->max_frame = size_picture.x / size.x;
+    data_an->rect_sprite = sf::IntRect(pos, size);
+    data_an->current_frame = 1;
+    data->sprite->setTextureRect(data_an->rect_sprite);
+    data->animated = data_an;
 }
 
-img_t *init_img(std::string path, sf::Vector2f pos)
+img_t *init_img(std::string path, sf::Vector2f pos, sf::Vector2f size)
 {
     img_t *data = new img_t;
-    sf::Vector2u size_sprite = sf::Vector2u(0, 0);
 
     data->texture = new sf::Texture;
     if (!data->texture->loadFromFile(path)) {
@@ -38,9 +30,8 @@ img_t *init_img(std::string path, sf::Vector2f pos)
     }
     data->sprite = new sf::Sprite;
     data->sprite->setTexture(*data->texture);
-    size_sprite = data->texture->getSize();
-    data->sprite->setOrigin(sf::Vector2f(((float)size_sprite.x / 2), ((float)size_sprite.y / 2)));
-    data->sprite->setPosition(pos);
+    data->sprite->setOrigin(sf::Vector2f(((float)size.x / 2), ((float)size.y / 2)));
     data->current_position = pos;
+    data->sprite->setPosition(pos);
     return data;
 }

@@ -11,11 +11,17 @@
 #ifndef STRUCT_HPP_
     #define STRUCT_HPP_
 
+typedef struct animated_s {
+    sf::IntRect rect_sprite;
+    int current_frame;
+    int max_frame;
+}animated_t;
+
 typedef struct img_s {
     sf::Texture *texture;
     sf::Sprite *sprite;
     sf::Vector2f current_position;
-    sf::IntRect rect_sprite;
+    animated_t *animated;
 }img_t;
 
 typedef struct time2_s {

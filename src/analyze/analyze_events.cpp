@@ -16,7 +16,7 @@ void analyze_events(class Duck *duck, sf::RenderWindow &window)
             window.close();
         if (event.type == sf::Event::MouseButtonReleased &&
             event.mouseButton.button == sf::Mouse::Button::Left)
-            (duck)->check_shoot(sf::Vector2f(event.mouseButton.x,
-            event.mouseButton.y));
+            (duck)->check_shoot(window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x,
+            event.mouseButton.y)));
     }
 }
