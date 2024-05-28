@@ -11,18 +11,33 @@ YELLOW=\033[01;33m
 BLUE=\e[1;34m
 NC=\033[0m
 
-SRC =	src/app/app.cpp	\
-		src/init/init_time.cpp	\
-		src/init/init_duck.cpp	\
-		src/classes/ducks.cpp	\
-		src/classes/duck_impact.cpp	\
-		src/analyze/analyze_events.cpp	\
-		src/compute/increment_rect.cpp	\
-		src/vector_operations.cpp	\
-		src/delete/delete_img.cpp	\
-		src/delete/delete_time.cpp	\
 
-SRC_MAIN =	src/main.cpp
+SRC_FOLDER 		=	./src/
+
+INIT_FOLDER 	=	$(SRC_FOLDER)init/
+
+COMPUTE_FOLDER	=	$(SRC_FOLDER)compute/
+
+CLASSES_FOLDER	=	$(SRC_FOLDER)classes/
+
+APP_FOLDER		=	$(SRC_FOLDER)app/
+
+ANALYZE_FOLDER	=	$(SRC_FOLDER)analyze/
+
+DELETE_FOLDER 	=	$(SRC_FOLDER)delete/
+
+SRC =	$(APP_FOLDER)app.cpp	\
+		$(INIT_FOLDER)init_time.cpp	\
+		$(INIT_FOLDER)init_duck.cpp	\
+		$(CLASSES_FOLDER)ducks.cpp	\
+		$(CLASSES_FOLDER)duck_impact.cpp	\
+		$(ANALYZE_FOLDER)analyze_events.cpp	\
+		$(COMPUTE_FOLDER)increment_rect.cpp	\
+		$(DELETE_FOLDER)delete_img.cpp	\
+		$(DELETE_FOLDER)delete_time.cpp	\
+		$(SRC_FOLDER)vector_operations.cpp	\
+
+SRC_MAIN =	$(SRC_FOLDER)main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
@@ -40,18 +55,13 @@ $(NAME): $(OBJ) $(OBJ_MAIN)
 
 clean:
 	@printf "$(RED)[🚫]$(BLUE)Clean$(NC)\n"
-	@rm -f $(OBJ)
-	@rm -f $(OBJ_MAIN)
-	@rm -f $(LIBOBJ)
+	@find . -name *.o -exec rm -rf {} \;
 	@rm -f *.gcno
 	@rm -f *.gcda
 
 fclean: clean
 	@printf "$(RED)[🚫]$(BLUE)Fclean$(NC)\n"
 	@rm -f $(NAME)
-	@rm -f libmy.a
-	@rm -f $(OBJ)
-	@rm -f $(OBJ_MAIN)
 	@rm -f unit_tests
 
 re: fclean all
