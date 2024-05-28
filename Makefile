@@ -11,10 +11,35 @@ YELLOW=\033[01;33m
 BLUE=\e[1;34m
 NC=\033[0m
 
-SRC =	src/app/app.cpp	\
-		src/init/init_game.cpp	\
 
-SRC_MAIN =	src/main.cpp
+SRC_FOLDER 		=	./src/
+
+INIT_FOLDER 	=	$(SRC_FOLDER)init/
+
+COMPUTE_FOLDER	=	$(SRC_FOLDER)compute/
+
+CLASSES_FOLDER	=	$(SRC_FOLDER)classes/
+
+APP_FOLDER		=	$(SRC_FOLDER)app/
+
+ANALYZE_FOLDER	=	$(SRC_FOLDER)analyze/
+
+DELETE_FOLDER 	=	$(SRC_FOLDER)delete/
+
+SRC =	$(APP_FOLDER)app.cpp	\
+		$(INIT_FOLDER)init_time.cpp	\
+		$(INIT_FOLDER)init_duck.cpp	\
+		$(CLASSES_FOLDER)ducks.cpp	\
+		$(CLASSES_FOLDER)duck_impact.cpp	\
+		$(ANALYZE_FOLDER)analyze_events.cpp	\
+		$(COMPUTE_FOLDER)increment_rect.cpp	\
+		$(COMPUTE_FOLDER)compute_game.cpp	\
+		$(DELETE_FOLDER)delete_img.cpp	\
+		$(DELETE_FOLDER)delete_time.cpp	\
+		$(DELETE_FOLDER)delete_game.cpp	\
+		$(SRC_FOLDER)vector_operations.cpp	\
+
+SRC_MAIN =	$(SRC_FOLDER)main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
@@ -22,7 +47,7 @@ OBJ_MAIN = $(SRC_MAIN:.cpp=.o)
 
 NAME	=	our_hunter
 
-CFLAGS	=	-I./includes/ -lsfml-graphics -lsfml-window -lsfml-system
+CFLAGS	=	-I./includes/ -lsfml-graphics -lsfml-window -lsfml-system -lm -g
 
 all: $(NAME)
 
@@ -32,18 +57,13 @@ $(NAME): $(OBJ) $(OBJ_MAIN)
 
 clean:
 	@printf "$(RED)[🚫]$(BLUE)Clean$(NC)\n"
-	@rm -f $(OBJ)
-	@rm -f $(OBJ_MAIN)
-	@rm -f $(LIBOBJ)
+	@find . -name *.o -exec rm -rf {} \;
 	@rm -f *.gcno
 	@rm -f *.gcda
 
 fclean: clean
 	@printf "$(RED)[🚫]$(BLUE)Fclean$(NC)\n"
 	@rm -f $(NAME)
-	@rm -f libmy.a
-	@rm -f $(OBJ)
-	@rm -f $(OBJ_MAIN)
 	@rm -f unit_tests
 
 re: fclean all

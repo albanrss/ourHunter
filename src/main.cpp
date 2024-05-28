@@ -10,5 +10,8 @@
 int main(void)
 {
     game_t *data_game = init_game();
-    start_app(data_game);
+    class Duck *data = new Duck;
+
+    srand(time(NULL));
+    start_app(data);
 }

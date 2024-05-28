@@ -1,0 +1,44 @@
+name: Verif
+
+env:
+  EXECUTABLES: "our_hunter"
+
+on:
+  pull_request:
+    types: [opened]
+
+  push:
+    branches:
+      - '*'
+
+
+jobs:
+
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+
+      - name: make
+        timeout-minutes: 2
+        run: make
+
+      - name: clean
+        run: make clean
+
+      - name: verif exec
+        run: |
+          IFS=',' read -ra EXEC_ARR <<< "$EXECUTABLES"
+          for line in "${EXEC_ARR[@]}"; do
+            if [ ! -x "$line" ]; then
+              echo $line" is not executable"
+              exit 1
+            fi
+          done
