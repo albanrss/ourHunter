@@ -7,20 +7,16 @@
 
 #include "my.hpp"
 
-int start_app(game_t *data)
+int start_app(class Duck *duck)
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My_test in cpp");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "OurDuckHunter");
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    while (window.isOpen()) {
+        analyze_events(duck, window);
         window.clear();
-        window.draw(data->main_menu->sprite_main_menu);
+        compute_game(duck, window);
         window.display();
     }
+    delete_game(duck);
     return 0;
 }
