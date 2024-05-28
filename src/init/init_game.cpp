@@ -7,19 +7,23 @@
 
 #include "my.hpp"
 
-main_menu_t *init_main_menu(void)
+window_t *init_window(void)
 {
-    main_menu_t *data = new main_menu_t;
+    window_t *window = new window_t;
 
-    data->texture_main_menu.loadFromFile("assets/main_screen.jpg");
-    data->sprite_main_menu.setTexture(data->texture_main_menu);
-    return data;
+    window->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "OurHunter");
+    return window;
 }
 
 game_t *init_game(void)
 {
     game_t *game = new game_t;
 
-    game->main_menu = init_main_menu();
+    game->window = init_window();
+    game->scene = MAIN_MENU;
+    init_main_menu_scene(game);
+    init_game_scene(game);
+    init_end_scene(game);
+    init_settings_scene(game);
     return game;
 }
